@@ -13,6 +13,7 @@ export const facilityTypes = {
   POND: '연못',
   READINGROOM: '독서실',
   PARKINGLOT: '주차장',
+  GATE: '문',
   ETC: '기타시설',
 }
 

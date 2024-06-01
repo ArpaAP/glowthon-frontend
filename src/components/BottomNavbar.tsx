@@ -32,7 +32,12 @@ export default function BottomNavbar() {
         label="시설"
         onClick={() => navigate('/buildings')}
       />
-      <BottomNavbarButton icon={<TbSchool />} label="강의실" />
+      <BottomNavbarButton
+        active={location.pathname.startsWith('/rooms')}
+        icon={<TbSchool />}
+        label="강의실"
+        onClick={() => navigate('/rooms')}
+      />
       <BottomNavbarButton
         active={location.pathname.startsWith('/my')}
         icon={<TbUser />}

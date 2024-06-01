@@ -4,6 +4,7 @@ import MapPage from './pages/MapPage'
 import FacilitiesPage from './pages/FacilitiesPage'
 import BuildingDetailPage from './pages/BuildingDetailPage'
 import MyPage from './pages/MyPage'
+import LectureRoomsPage from './pages/LectureRoomsPage'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             path="/buildings/:buildingId"
             element={<BuildingDetailPage />}
           />
+          <Route path="/rooms" element={<LectureRoomsPage />} />
           <Route path="/my" element={<MyPage />} />
         </Routes>
 

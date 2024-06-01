@@ -8,14 +8,41 @@ import {
   TbTrash,
   TbLibrary,
   TbBooks,
+  TbLocation,
+  TbCornerUpRight,
 } from 'react-icons/tb'
 import { Facility } from '../types/facility'
-import facilities from '../constants/facilities'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { Building } from '../types/building'
+import axios from 'axios'
+import urlJoin from 'url-join'
+import FacilityCard from '../components/FacilityCard'
+import NavigateCard from '../components/NavigateCard'
 
 export default function MapPage() {
   const [map, setMap] = useState<null | kakao.maps.Map>(null)
   const [markers, setMarkers] = useState<kakao.maps.Marker[]>([])
+  const [facilities, setFacilities] = useState<Facility[]>([])
+  const [selectedFacility, setSelectedFacility] = useState<Facility | null>(
+    null,
+  )
+
+  const [from, setFrom] = useState<Building | Facility | null>(null)
+  const [to, setTo] = useState<Building | Facility | null>(null)
+  const [showNavigate, setShowNavigate] = useState(false)
+
+  const [showPath, setShowPath] = useState(false)
+
+  useEffect(() => {
+    axios
+      .get(urlJoin(import.meta.env.VITE_BACKEND_URL, '/api/v1/facilities'))
+      .then((r) => {
+        setFacilities(r.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }, [])
 
   useEffect(() => {
     const { kakao } = window
@@ -31,6 +58,27 @@ export default function MapPage() {
       }
 
       let m = new kakao.maps.Map(container, options)
+
+      const getLocationAsync = (options?: PositionOptions) => {
+        return new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, options)
+        })
+      }
+
+      const { coords } = await getLocationAsync()
+
+      let currentLocationCircle = new kakao.maps.Circle({
+        center: new kakao.maps.LatLng(coords.latitude, coords.longitude),
+        radius: 50,
+        strokeWeight: 1,
+        strokeColor: '#000',
+        strokeOpacity: 0.3,
+        strokeStyle: 'solid',
+        fillColor: '#ff0000',
+        fillOpacity: 0.5,
+      })
+
+      currentLocationCircle.setMap(m)
 
       setMap(m)
     })
@@ -67,6 +115,10 @@ export default function MapPage() {
           infowindow.close()
         })
 
+        kakao.maps.event.addListener(marker, 'click', () => {
+          setSelectedFacility(facility)
+        })
+
         return marker
       })
 
@@ -89,6 +141,32 @@ export default function MapPage() {
         marker.setMap(null)
       })
     }
+  }
+
+  const handleNavigate = () => {
+    const { kakao } = window
+
+    if (!kakao) return
+
+    var polyline = new kakao.maps.Polyline({
+      map: map!,
+      path: [
+        new kakao.maps.LatLng(35.888052627940525, 128.61137638921986),
+        new kakao.maps.LatLng(35.88832128824555, 128.61116589139206),
+        new kakao.maps.LatLng(35.88857690178667, 128.6115918827895),
+        new kakao.maps.LatLng(35.88933448685457, 128.6122163136547),
+        new kakao.maps.LatLng(35.89107583597261, 128.61339781852394),
+        new kakao.maps.LatLng(35.8911881499279, 128.61342224641191),
+        new kakao.maps.LatLng(35.89131777044683, 128.6131646289559),
+        new kakao.maps.LatLng(35.891445116603876, 128.61274084857334),
+      ],
+      strokeWeight: 5,
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeStyle: 'solid',
+    })
+
+    setShowPath(true)
   }
 
   return (
@@ -135,6 +213,32 @@ export default function MapPage() {
       </div>
 
       <div id="map" className="w-full h-full" />
+
+      {selectedFacility && <FacilityCard facility={selectedFacility} />}
+
+      <NavigateCard
+        from={from ? facilities.find((f) => f.id === from.id) || null : null}
+        to={to ? facilities.find((f) => f.id === to.id) || null : null}
+        setFrom={(from) => {
+          setFrom(from)
+        }}
+        setTo={(to) => {
+          setTo(to)
+        }}
+        show={showNavigate}
+        onClose={() => setShowNavigate(false)}
+        onSubmit={() => handleNavigate()}
+      />
+
+      <button
+        type="button"
+        className="absolute right-4 bottom-8 z-[9] bg-rose-500 text-white flex justify-center items-center shadow-lg h-14 w-14 rounded-full"
+        onClick={() => {
+          setShowNavigate(true)
+        }}
+      >
+        <TbCornerUpRight className="text-3xl" />
+      </button>
     </div>
   )
 }

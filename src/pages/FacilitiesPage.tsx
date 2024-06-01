@@ -1,28 +1,46 @@
 import { TbChevronRight, TbSearch } from 'react-icons/tb'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import facilities, { facilityTypes } from '../constants/facilities'
+import { facilityTypes } from '../constants/facilities'
 import { Building } from '../types/building'
 import axios from 'axios'
 import urlJoin from 'url-join'
+import { Facility } from '../types/facility'
 
 export default function FacilitiesPage() {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 
   const [buildings, setBuildings] = useState<Building[]>([])
+  const [facilities, setFacilities] = useState<Facility[]>([])
 
   useEffect(() => {
     axios
       .get(urlJoin(import.meta.env.VITE_BACKEND_URL, '/api/v1/buildings'))
       .then((r) => {
-        console.log(r.data)
         setBuildings(r.data)
       })
       .catch((e) => {
         console.error(e)
       })
+
+    axios
+      .get(urlJoin(import.meta.env.VITE_BACKEND_URL, '/api/v1/facilities'))
+      .then((r) => {
+        setFacilities(r.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }, [])
+
+  if (!buildings.length || !facilities.length) {
+    return (
+      <div className="flex justify-center items-center text-rose-500 h-full">
+        불러오는 중...
+      </div>
+    )
+  }
 
   return (
     <div className="bg-gray-100/75" style={{ height: 'calc(100vh - 64px)' }}>

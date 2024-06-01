@@ -16,6 +16,7 @@ export interface Facility {
     | 'POND'
     | 'READINGROOM'
     | 'PARKINGLOT'
+    | 'GATE'
     | 'ETC'
   lat: number
   lng: number
