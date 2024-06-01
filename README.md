@@ -10,6 +10,16 @@
 - 우리는 지역사회의 가장 많은 인재가 밀집되어 있는 경북대학교의 문제를 해결함으로써 지역 사회의 지속 가능한 발전을 야기 하려합니다.
 - KNAP은 교육 접근성 향상, 교통 및 안전 개선, 교내 커뮤니티 활성화 및 학생들의 참여도 증대를 목표로 한 모바일 웹 사이트입니다.
 
+## 스크린샷
+
+![](./screenshots/1.png)
+![](./screenshots/2.png)
+![](./screenshots/3.png)
+![](./screenshots/4.png)
+![](./screenshots/5.png)
+![](./screenshots/6.png)
+![](./screenshots/7.png)
+
 ### Soleil 팀
 
 | [<img src="https://avatars.githubusercontent.com/u/56078563?v=4" width="100px">](https://github.com/jamie2779) | [<img src="https://avatars.githubusercontent.com/u/54466872?v=4" width="100px">](https://github.com/ArpaAP) |[<img src="https://avatars.githubusercontent.com/u/81242448?v=4" width="100px">](https://github.com/ahapwhs0414) | [<img src="https://avatars.githubusercontent.com/u/139311232?v=4" width="100px">](https://github.com/moongi05) |
