@@ -39,7 +39,9 @@
 - **디자인 프레임워크**: Tailwind CSS, Framer Motion
 - **폰트** - Pretendard
 
-백엔드 기술 스택은 백엔드 레포지토리 참조
+## 백엔드
+
+백엔드 관련 내용은 백엔드 레포지토리 참조
 > [백엔드 레포지토리](https://github.com/jamie2779/glowthon-backend)
 
 ## API 명세서
