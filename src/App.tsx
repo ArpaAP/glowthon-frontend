@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import BottomNavbar from './components/BottomNavbar'
 import MapPage from './pages/MapPage'
-import BuildingsPage from './pages/BuildingsPage'
+import FacilitiesPage from './pages/FacilitiesPage'
 import BuildingDetailPage from './pages/BuildingDetailPage'
 import MyPage from './pages/MyPage'
 
@@ -11,7 +11,7 @@ function App() {
       <div className="max-w-md mx-auto bg-white h-full flex flex-col shadow-lg">
         <Routes>
           <Route path="/" element={<MapPage />} />
-          <Route path="/buildings" element={<BuildingsPage />} />
+          <Route path="/buildings" element={<FacilitiesPage />} />
           <Route
             path="/buildings/:buildingId"
             element={<BuildingDetailPage />}

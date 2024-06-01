@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import {
   TbMenu2,
-  TbShoppingBag,
   TbBuildingStore,
   TbPrinter,
   TbCash,
   TbCoffee,
   TbTrash,
+  TbLibrary,
+  TbBooks,
 } from 'react-icons/tb'
-import { IndoorFacility, OutdoorFacility } from '../types/facility'
-import { indoorFacilities, outdoorFacilities } from '../constants/facilities'
+import { Facility } from '../types/facility'
+import facilities from '../constants/facilities'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 export default function MapPage() {
   const [map, setMap] = useState<null | kakao.maps.Map>(null)
@@ -34,25 +36,38 @@ export default function MapPage() {
     })
   }, [])
 
-  const handleCategoryClick = (
-    type: OutdoorFacility['type'] | IndoorFacility['type'],
-  ) => {
+  const handleCategoryClick = (facilityType: Facility['facilityType']) => {
     const { kakao } = window
 
     if (!kakao) return
-
-    const facilities = [...outdoorFacilities, ...indoorFacilities]
 
     markers.forEach((marker) => {
       marker.setMap(null)
     })
 
+    let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
+
     const newMarkers = facilities
-      .filter((facility) => facility.type === type)
+      .filter((facility) => facility.facilityType === facilityType)
       .map((facility) => {
-        return new kakao.maps.Marker({
+        let marker = new kakao.maps.Marker({
           position: new kakao.maps.LatLng(facility.lat, facility.lng),
         })
+
+        kakao.maps.event.addListener(marker, 'mouseover', () => {
+          infowindow.setContent(
+            renderToStaticMarkup(
+              <div className="p-2 text-sm flex">{facility.name}</div>,
+            ),
+          )
+          infowindow.open(map!, marker)
+        })
+
+        kakao.maps.event.addListener(marker, 'mouseout', () => {
+          infowindow.close()
+        })
+
+        return marker
       })
 
     newMarkers.forEach((marker) => {
@@ -92,71 +107,30 @@ export default function MapPage() {
         </div>
 
         <div className="flex flex-nowrap gap-2 py-2 overflow-x-auto scrollbar-hide">
-          <button
-            type="button"
-            className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
-            onClick={() => {
-              handleCategoryClick('CONVINIENCE')
-            }}
-          >
-            <TbShoppingBag strokeWidth={1.5} />
-            편의점
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
-            onClick={() => {
-              handleCategoryClick('RESTAURANT')
-            }}
-          >
-            <TbBuildingStore strokeWidth={1.5} />
-            학식
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
-            onClick={() => {
-              handleCategoryClick('PRINT')
-            }}
-          >
-            <TbPrinter strokeWidth={1.5} />
-            인쇄소
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
-            onClick={() => {
-              handleCategoryClick('ATM')
-            }}
-          >
-            <TbCash strokeWidth={1.5} />
-            ATM
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
-            onClick={() => {
-              handleCategoryClick('CAFE')
-            }}
-          >
-            <TbCoffee strokeWidth={1.5} />
-            카페
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
-            onClick={() => {
-              handleCategoryClick('TRASHCAN')
-            }}
-          >
-            <TbTrash strokeWidth={1.5} />
-            쓰레기통
-          </button>
+          {[
+            ['CONVINIENCE', TbBuildingStore, '편의점'],
+            ['RESTAURANT', TbBuildingStore, '학식'],
+            ['PRINT', TbPrinter, '인쇄소'],
+            ['READINGROOM', TbBooks, '독서실'],
+            ['ATM', TbCash, 'ATM'],
+            ['CAFE', TbCoffee, '카페'],
+            ['TRASHCAN', TbTrash, '쓰레기통'],
+          ].map(([facilityType, Icon, text]) => {
+            return (
+              <button
+                key={facilityType as string}
+                type="button"
+                className="flex items-center gap-1 shrink-0 bg-white rounded-full shadow-md px-2.5 py-1 text-sm font-light"
+                onClick={() => {
+                  console.log(facilityType)
+                  handleCategoryClick(facilityType as Facility['facilityType'])
+                }}
+              >
+                <Icon strokeWidth={1.5} />
+                {text as string}
+              </button>
+            )
+          })}
         </div>
       </div>
 

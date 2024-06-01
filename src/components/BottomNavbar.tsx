@@ -1,9 +1,7 @@
 import {
   TbBuilding,
   TbLocation,
-  TbMap,
   TbMapPin,
-  TbNavigation,
   TbSchool,
   TbUser,
 } from 'react-icons/tb'

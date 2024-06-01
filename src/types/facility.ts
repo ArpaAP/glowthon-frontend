@@ -1,17 +1,22 @@
-export interface OutdoorFacility {
-  id: number
-  name: string
-  type: 'TRASHCAN' | 'BENCH' | 'VENDINGMACHINE' | 'ATM' | 'ETC'
-  lat: number
-  lng: number
-  note?: string | null
-}
-
-export interface IndoorFacility {
+export interface Facility {
   id: number
   buildingId: number
+  positionType: 'INDOOR' | 'OUTDOOR'
   name: string
-  type: 'CONVINIENCE' | 'PRINT' | 'RESTAURANT' | 'CAFE' | 'ETC'
+  facilityType:
+    | 'TRASHCAN'
+    | 'BENCH'
+    | 'VENDINGMACHINE'
+    | 'ATM'
+    | 'CONVINIENCE'
+    | 'PRINT'
+    | 'RESTAURANT'
+    | 'CAFE'
+    | 'GROUND'
+    | 'POND'
+    | 'READINGROOM'
+    | 'PARKINGLOT'
+    | 'ETC'
   lat: number
   lng: number
   note?: string | null
