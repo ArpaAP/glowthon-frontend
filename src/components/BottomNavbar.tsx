@@ -21,12 +21,6 @@ export default function BottomNavbar() {
         onClick={() => navigate('/')}
       />
       <BottomNavbarButton
-        active={location.pathname.startsWith('/pathfind')}
-        icon={<TbLocation />}
-        label="길찾기"
-        onClick={() => navigate('/pathfind')}
-      />
-      <BottomNavbarButton
         active={location.pathname.startsWith('/buildings')}
         icon={<TbBuilding />}
         label="시설"

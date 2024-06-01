@@ -22,9 +22,7 @@ export default function LectureRoomsPage() {
             className="rounded-xl bg-white px-4 py-2 w-full text-left"
           >
             <div className="font-semibold pb-0.5">415</div>
-            <div className="text-sm text-gray-500 font-light">
-              대학글쓰기 강의실
-            </div>
+            <div className="text-sm text-gray-500 font-light">IT 5호관</div>
           </button>
 
           <button
@@ -32,9 +30,7 @@ export default function LectureRoomsPage() {
             className="rounded-xl bg-white px-4 py-2 w-full text-left"
           >
             <div className="font-semibold pb-0.5">418</div>
-            <div className="text-sm text-gray-500 font-light">
-              이산수학 강의실
-            </div>
+            <div className="text-sm text-gray-500 font-light">IT 5호관</div>
           </button>
         </div>
       </div>
