@@ -23,19 +23,24 @@ export default function BottomNavbar() {
         onClick={() => navigate('/')}
       />
       <BottomNavbarButton
-        active={location.pathname === '/pathfind'}
+        active={location.pathname.startsWith('/pathfind')}
         icon={<TbLocation />}
         label="길찾기"
         onClick={() => navigate('/pathfind')}
       />
       <BottomNavbarButton
-        active={location.pathname === '/buildings'}
+        active={location.pathname.startsWith('/buildings')}
         icon={<TbBuilding />}
         label="시설"
         onClick={() => navigate('/buildings')}
       />
       <BottomNavbarButton icon={<TbSchool />} label="강의실" />
-      <BottomNavbarButton icon={<TbUser />} label="MY" />
+      <BottomNavbarButton
+        active={location.pathname.startsWith('/my')}
+        icon={<TbUser />}
+        label="MY"
+        onClick={() => navigate('/my')}
+      />
     </div>
   )
 }

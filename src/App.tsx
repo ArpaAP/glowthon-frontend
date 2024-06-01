@@ -2,6 +2,8 @@ import { Route, Routes } from 'react-router-dom'
 import BottomNavbar from './components/BottomNavbar'
 import MapPage from './pages/MapPage'
 import BuildingsPage from './pages/BuildingsPage'
+import BuildingDetailPage from './pages/BuildingDetailPage'
+import MyPage from './pages/MyPage'
 
 function App() {
   return (
@@ -10,6 +12,11 @@ function App() {
         <Routes>
           <Route path="/" element={<MapPage />} />
           <Route path="/buildings" element={<BuildingsPage />} />
+          <Route
+            path="/buildings/:buildingId"
+            element={<BuildingDetailPage />}
+          />
+          <Route path="/my" element={<MyPage />} />
         </Routes>
 
         <div className="mt-auto">
